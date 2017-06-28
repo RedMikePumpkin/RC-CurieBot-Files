@@ -26,6 +26,8 @@
   BLESerial ble = BLESerial();
 
 static int lightPin = 13;
+uint8_t lightState = 0;
+uint8_t lightPState = 0;
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
@@ -235,8 +237,17 @@ bool buttonMode(){
         L_MOTOR->run(FORWARD);
         R_MOTOR->run(RELEASE);        
       }
-      if(buttnum == 1){
-        digitalWrite(lightPin, HIGH);
+      if(buttnum == 1 && lightPState == 0){
+        lightPState = 1;
+        lightState = (lightstate + 1) % 2;
+        switch (lightState) {
+          case 0:
+            digitalWrite(lightPin, LOW);
+            break;
+          case 1:
+            digitalWrite(lightPin, HIGH);
+            break;
+        }
       }
 
       lastPress = millis();
@@ -248,7 +259,7 @@ bool buttonMode(){
         delay(5); // 250ms total to speed up
       }
     } else if (buttnum == 1) {
-        digitalWrite(lightPin, LOW);
+        LightPState = 0;
     } else {
       isMoving = false;
       // slow down the motors
