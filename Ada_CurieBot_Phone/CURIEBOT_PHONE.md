@@ -4,6 +4,8 @@ Using arduino software, upload this file onto your CurieBot.
 
 For use with the Bluefruit LE app
 
+Use the default Arduino firmware
+
 ---
 
 Controls:
